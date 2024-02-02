@@ -19,13 +19,13 @@ public class CourseDetailsService {
         Course course2 = new Course(2, "Spring Restful API", "Java Web Services: RESTful Api");
         courses.add(course2);
 
-        Course course3 = new Course(3, "DevOps Docker", "Udemy Course");
+        Course course3 = new Course(3, "DevOps Docker", "Udemy Docker, Kubernetes & Terraform");
         courses.add(course3);
 
-        Course course4 = new Course(4, "DevOps Kubernetes", "Udemy Course");
+        Course course4 = new Course(4, "Python", "Django");
         courses.add(course4);
 
-        Course course5 = new Course(5, "DevOps Terraform", "Udemy Course");
+        Course course5 = new Course(5, "C Sharp", "dotNet");
         courses.add(course5);
     }
 
