@@ -42,7 +42,7 @@ public class CourseDetailsService {
         return courses;
     }
 
-    public boolean deleteCourse(int id) {
+    public boolean deleteById(int id) {
         Iterator<Course> iterator = courses.iterator();
         while (iterator.hasNext()) {
             Course course = iterator.next();

@@ -36,6 +36,15 @@ public class CourseDetailsEndpoint {
         return response;
     }
 
+    @PayloadRoot(namespace = "http://mySOAP.com/courses", localPart = "DeleteCourseRequest")
+    @ResponsePayload
+    public DeleteCourseResponse processDeleteCourseRequest(@RequestPayload DeleteCourseRequest request) {
+        DeleteCourseResponse response = new DeleteCourseResponse();
+        boolean isRemoved = courseDetailsService.deleteById(request.getId());
+        response.setStatus(isRemoved);
+        return response;
+    }
+
     private CourseDetails mapCourse(Course course) {
         CourseDetails courseDetails = new CourseDetails();
         courseDetails.setId(course.getId());
