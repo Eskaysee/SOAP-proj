@@ -1,6 +1,7 @@
 package SpringBootFramework.SOAP.soap;
 
 import SpringBootFramework.SOAP.soap.bean.Course;
+import SpringBootFramework.SOAP.soap.exception.CourseNotFoundException;
 import SpringBootFramework.SOAP.soap.service.CourseDetailsService;
 import com.mysoap.courses.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class CourseDetailsEndpoint {
     public GetCourseDetailsResponse processCourseDetailsRequest(@RequestPayload GetCourseDetailsRequest request) {
         GetCourseDetailsResponse response = new GetCourseDetailsResponse();
         Course course = courseDetailsService.findById(request.getId());
+        if (course == null) {
+            throw new CourseNotFoundException("Invalid Course Id " + request.getId());
+        }
         response.setCourseDetails(mapCourse(course));
         return response;
     }
@@ -36,13 +40,20 @@ public class CourseDetailsEndpoint {
         return response;
     }
 
-    @PayloadRoot(namespace = "http://mySOAP.com/courses", localPart = "DeleteCourseRequest")
+    @PayloadRoot(namespace = "http://mySOAP.com/courses", localPart = "DeleteCourseDetailsRequest")
     @ResponsePayload
-    public DeleteCourseResponse processDeleteCourseRequest(@RequestPayload DeleteCourseRequest request) {
-        DeleteCourseResponse response = new DeleteCourseResponse();
-        boolean isRemoved = courseDetailsService.deleteById(request.getId());
-        response.setStatus(isRemoved);
+    public DeleteCourseDetailsResponse processDeleteCourseRequest(@RequestPayload DeleteCourseDetailsRequest request) {
+        DeleteCourseDetailsResponse response = new DeleteCourseDetailsResponse();
+        CourseDetailsService.Status isRemoved = courseDetailsService.deleteById(request.getId());
+        response.setStatus(mapStatus(isRemoved));
         return response;
+    }
+
+    private Status mapStatus(CourseDetailsService.Status isRemoved) {
+        if (isRemoved == CourseDetailsService.Status.SUCCESS) {
+            return Status.SUCCESS;
+        }
+        return Status.FAILURE;
     }
 
     private CourseDetails mapCourse(Course course) {

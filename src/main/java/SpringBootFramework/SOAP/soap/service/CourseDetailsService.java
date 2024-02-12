@@ -12,6 +12,10 @@ public class CourseDetailsService {
 
     private static List<Course> courses = new ArrayList<>();
 
+    public enum Status {
+        SUCCESS, FAILURE;
+    }
+
     static {
         Course course1 = new Course(1, "Spring SOAP", "Java Web Services: SOAP");
         courses.add(course1);
@@ -42,15 +46,15 @@ public class CourseDetailsService {
         return courses;
     }
 
-    public boolean deleteById(int id) {
+    public Status deleteById(int id) {
         Iterator<Course> iterator = courses.iterator();
         while (iterator.hasNext()) {
             Course course = iterator.next();
             if (course.getId() == id) {
                 iterator.remove();
-                return true;
+                return Status.SUCCESS;
             }
         }
-        return false;
+        return Status.FAILURE;
     }
 }
